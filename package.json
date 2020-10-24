@@ -1,0 +1,23 @@
+{
+  "name": "api-task",
+  "version": "1.0.0",
+  "description": "It is a REST API Project with CRUD operations in NodeJS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ritesht95/API-Task.git"
+  },
+  "keywords": [
+    "API",
+    "NodeJS"
+  ],
+  "author": "Ritesh Tailor",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ritesht95/API-Task/issues"
+  },
+  "homepage": "https://github.com/Ritesht95/API-Task#readme"
+}
