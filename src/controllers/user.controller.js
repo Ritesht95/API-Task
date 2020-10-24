@@ -29,12 +29,17 @@ class User {
                 if (result) {
                     bcrypt.compare(password, result.Password, (err, compResult) => {
                         if (compResult === true) {
-                            const finalResult = result.toObject();
-                            delete finalResult.Password;
-                            delete finalResult.__v;
-                            jwt.sign({ id: finalResult._id, userType: finalResult.UserType }, 'jwt_secret', (err, token) => {
-                                finalResult.Token = token;
-                                res.status(200).send({ Status: 'Sucess', Message: 'User logged in succesfully.', Data: finalResult});
+                            jwt.sign({ id: result._id, userType: result.UserType }, 'jwt_secret', async (err, token) => {
+                                try {
+                                    result.Token = token;
+                                    let finalResult = await result.save();
+                                    finalResult = finalResult.toObject();
+                                    delete finalResult.Password;
+                                    delete finalResult.__v;
+                                    res.status(200).send({ Status: 'Sucess', Message: 'User logged in succesfully.', Data: finalResult});
+                                } catch (error) {
+                                    res.status(400).send({ Status: 'Failure', Message: 'Failed to login!', Error: error});
+                                }
                             });
                         } else {
                             res.status(401).send({ Status: 'Failure', Message: 'Incorrect Password!', Error: err});
