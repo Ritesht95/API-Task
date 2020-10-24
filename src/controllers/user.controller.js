@@ -3,6 +3,13 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
 class User {
+
+    /**
+     * @method userRegistration
+     * @param {*} req 
+     * @param {*} res
+     * @description This method is used to register the user
+     */
     userRegistration(req, res) {
         const userData = req.body;
         const salt = 8;
@@ -19,6 +26,12 @@ class User {
         })
     }
 
+    /**
+     * @method userRegistration
+     * @param {*} req 
+     * @param {*} res
+     * @description This method is used to get user loggedIn
+     */
     userLogin(req, res) {
         const email = req.body.Email;
         const password = req.body.Password;

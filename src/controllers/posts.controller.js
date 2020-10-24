@@ -1,5 +1,12 @@
 const postModel = require('../db/models/post');
 class Post {
+
+    /**
+     * @method getPosts
+     * @param {*} req 
+     * @param {*} res
+     * @description This method is used to get the posts of users based on the usertype
+     */
     getPosts(req, res) {
         let queryObj;
         if (req.userType) {
@@ -20,6 +27,12 @@ class Post {
         });
     }
 
+    /**
+     * @method createPost
+     * @param {*} req 
+     * @param {*} res
+     * @description This method is used to create the post for user
+     */
     createPost(req, res) {
         const postData = req.body;
         postData.CreatedBy = req.userId;
@@ -35,6 +48,12 @@ class Post {
         });
     }
 
+    /**
+     * @method updatePost
+     * @param {*} req 
+     * @param {*} res
+     * @description This method is used to update the post for user
+     */
     updatePost(req, res) {
         const userId = req.userId;
         const postId = req.params.postId;
@@ -59,6 +78,12 @@ class Post {
         });
     }
 
+    /**
+     * @method deletePost
+     * @param {*} req 
+     * @param {*} res
+     * @description This method is used to delete the post for user
+     */
     deletePost(req, res) {
         const userId = req.userId;
         const postId = req.params.postId;

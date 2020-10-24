@@ -1,5 +1,6 @@
 const post = require('../controllers/posts.controller');
 const jwt = require('jsonwebtoken');
+const userModel = require('../db/models/user');
 
 class PostsRoute {
     constructor(router) {
@@ -9,6 +10,13 @@ class PostsRoute {
         router.delete('/api/post/:postId', this.verifyUser, post.deletePost);
     }
 
+    /**
+     * @method verifyUser
+     * @param {*} req 
+     * @param {*} res
+     * @param {*} next
+     * @description This method works as middleware to verify user login
+     */
     verifyUser(req, res, next) {
         if (req.headers['authorization']) {
             const token = req.headers['authorization'];
@@ -16,9 +24,15 @@ class PostsRoute {
                 if (err) {
                     res.status(403).send({ Status: 'Failure', Message: 'Wrong Token', Error: err});
                 } else {
-                    req.userType = decoded.userType;
-                    req.userId = decoded.id;
-                    return next();
+                    userModel.findOne({_id: decoded.id, Token: token }, (err, result) => {
+                        if (err) {
+                            res.status(403).send({ Status: 'Failure', Message: 'Wrong Token', Error: err});
+                        } else {        
+                            req.userType = decoded.userType;
+                            req.userId = decoded.id;
+                            return next();
+                        }
+                    })
                 }
             });
         } else {
@@ -26,6 +40,13 @@ class PostsRoute {
         }
     }
 
+    /**
+     * @method verifyUser
+     * @param {*} req 
+     * @param {*} res
+     * @param {*} next
+     * @description This method works as middleware to verify user as admin
+     */
     verifyAdmin(req, res, next) {
         if (req.userType) {
             return next();
